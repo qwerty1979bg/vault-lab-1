@@ -1,11 +1,20 @@
 #!/usr/bin/python
 
+#import os
 import MySQLdb
+import subprocess
+
+# Get the MySQL credentials from the OS ENV variables
+#username='%s' %os.environ['mysql_username']		# get DB username from ENV VAR
+#password='%s' %os.environ['mysql_password']		# get DB username from ENV VAR
+
+# Get the MySQL credentials from Vault
+username=subprocess.check_output(['vault', 'kv', 'get', '-field=user', 'secret/mysql'])
+password=subprocess.check_output(['vault', 'kv', 'get', '-field=password', 'secret/mysql'])
 
 db = MySQLdb.connect(	host="localhost",	# localhost, for now
-			user="test",		# hardcoded username - #YOLO
-#			passwd="pass")		# hardcoded password
-			passwd="pass",		# hardcoded password
+			user='%s' %username,
+			passwd='%s' %password,
 			db="world")		# database name 
 
 # This comes straight from some tutorial - will need to be modified accordingly
