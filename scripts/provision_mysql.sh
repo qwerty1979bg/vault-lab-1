@@ -3,7 +3,8 @@
 # Check if MySQL is listening on all interfaces
 
 # Set MySQL to listen on all interfaces
-if [ $(grep -i "^bind-address" /etc/mysql/my.cnf | wc -l) != 1 ]
+BIND=$(grep -i "^bind-address" /etc/mysql/my.cnf | wc -l)
+if [ ${BIND} != 1 ]
 then
 	echo "more than one 'bind-address' found in the MySQL config file - please fix this"
 	exit 1
@@ -14,7 +15,6 @@ else
 fi
 
 # Create a new user (test/pass) and grant it some magic abilities
-
 mysql -u root << EOF
 CREATE USER 'test'@'localhost' IDENTIFIED BY 'pass';
 GRANT ALL PRIVILEGES ON *.* TO 'test'@'localhost' WITH GRANT OPTION;
@@ -24,9 +24,8 @@ exit
 EOF
 
 # Import a sample database
-tmp1=$(mktemp -d --tmpdir=/dev/shm/)
-pushd .
-cd $tmp1
+tmp1=$(mktemp -d --tmpdir=/var/tmp/)
+pushd ${tmp1}
 wget -nv https://downloads.mysql.com/docs/world.sql.gz
 gunzip world.sql.gz
 mysql -u root < world.sql
