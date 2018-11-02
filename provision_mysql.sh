@@ -27,7 +27,7 @@ EOF
 tmp1=$(mktemp -d --tmpdir=/dev/shm/)
 pushd .
 cd $tmp1
-wget https://downloads.mysql.com/docs/world.sql.gz
+wget -nv https://downloads.mysql.com/docs/world.sql.gz
 gunzip world.sql.gz
 mysql -u root < world.sql
 popd
