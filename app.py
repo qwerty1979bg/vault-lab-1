@@ -9,6 +9,7 @@ import subprocess
 #password='%s' %os.environ['mysql_password']		# get DB username from ENV VAR
 
 # Get the MySQL credentials from Vault
+# TODO replace this to use Vault API
 username=subprocess.check_output(['vault', 'kv', 'get', '-field=user', 'secret/mysql'])
 password=subprocess.check_output(['vault', 'kv', 'get', '-field=password', 'secret/mysql'])
 
@@ -24,7 +25,6 @@ db = MySQLdb.connect(	host="localhost",	# localhost, for now
 cur = db.cursor()
 
 # Use all the SQL you like
-#cur.execute("CREATE DATABASE test123")
 cur.execute("SELECT name FROM city where countrycode='BGR'")
 
 # print all the first cell of all the rows
