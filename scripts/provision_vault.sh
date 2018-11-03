@@ -33,6 +33,11 @@ vault status &>/dev/null || {
   sleep 3
 }
 
+# copy token to vagrant user
+[ -f /home/vagrant/.vault-token ] && rm /home/vagrant/.vault-token
+cp -a /root/.vault-token /home/vagrant/.vault-token
+chown vagrant: /home/vagrant/.vault-token
+
 # Add the DB credentials to the Vault KV store
 vault kv put secret/mysql user=test password=pass
 vault kv get secret/mysql

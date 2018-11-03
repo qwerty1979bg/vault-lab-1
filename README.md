@@ -7,11 +7,10 @@ The simple Python APP uses DB credentials supplied by Vault to connect to MySQL 
 ```
 vagrant up
 vagrant ssh dev1
-sudo -i /vagrant/app.py
+/vagrant/app.py
 exit
 vagrant destroy
 ```
 
-TODO:
-#YOLO
+# TODO:
 https://github.com/hashicorp/envconsul
